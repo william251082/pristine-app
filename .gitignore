@@ -10,3 +10,9 @@
 .env
 symfony.lock
 console
+.idea/blog.iml
+.idea/encodings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/php.xml
+.idea/yii2settings.xml
