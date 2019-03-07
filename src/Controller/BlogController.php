@@ -38,14 +38,25 @@ class BlogController extends AbstractController
 
     /**
      * @Route("/", name="blog_list")
+     * @param int $page
+     *
+     * @return JsonResponse
      */
-    public function list()
+    public function list($page = 1)
     {
-        return new JsonResponse(self::POSTS);
+        return new JsonResponse(
+            [
+            'page' => $page,
+            'data' => self::POSTS,
+            ]
+        );
     }
 
     /**
-     * @Route("/{id}", name="blog_by_id", requirements={"id"="\d+"})
+     * @Route("/post/{id}", name="blog_by_id", requirements={"id"="\d+"})
+     * @param $id
+     *
+     * @return JsonResponse
      */
     public function post($id)
     {
@@ -55,7 +66,10 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}", name="blog_by_slug")
+     * @Route("/post/{slug}", name="blog_by_slug")
+     * @param $slug
+     *
+     * @return JsonResponse
      */
     public function postBySlug($slug)
     {
