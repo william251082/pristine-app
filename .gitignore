@@ -16,3 +16,5 @@ console
 .idea/modules.xml
 .idea/php.xml
 .idea/yii2settings.xml
+.idea/dataSources.local.xml
+.idea/inspectionProfiles/Project_Default.xml
