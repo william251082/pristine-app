@@ -18,3 +18,9 @@ console
 .idea/yii2settings.xml
 .idea/dataSources.local.xml
 .idea/inspectionProfiles/Project_Default.xml
+
+###> squizlabs/php_codesniffer ###
+/.phpcs-cache
+/phpcs.xml
+###< squizlabs/php_codesniffer ###
+phpcs.xml.dist
