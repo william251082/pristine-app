@@ -13,8 +13,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Yaml\Tests\B;
 
 /**
  * Class BlogController
@@ -23,7 +23,7 @@ use Symfony\Component\Yaml\Tests\B;
 class BlogController extends AbstractController
 {
     /**
-     * @Route("/{page}", name="blog_list", defaults={"page": 5}, requirements={"page"="\d+"})
+     * @Route("/{page}", name="blog_list", defaults={"page": 5}, requirements={"page"="\d+"}, methods={"GET"})
      * @param Request $request
      * @param int $page
      *
@@ -47,7 +47,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/post/{id}", name="blog_by_id", requirements={"id"="\d+"})
+     * @Route("/post/{id}", name="blog_by_id", requirements={"id"="\d+"}, methods={"GET"})
      * @ParamConverter("post", class="App:Post")
      * @param Post $post
      *
@@ -60,7 +60,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/post/{slug}", name="blog_by_slug")
+     * @Route("/post/{slug}", name="blog_by_slug", methods={"GET"})
      * Another option to paramConverter is to type hint
      * @ParamConverter("post", class="App:Post", options={"mapping": {"slug": "slug"}})
      * @param Post $post
@@ -90,5 +90,20 @@ class BlogController extends AbstractController
         $manager->flush();
 
         return $this->json($blogPost);
+    }
+
+    /**
+     * @Route("/post/{id}", name="blog_delete", methods={"DELETE"})
+     * @param Post $post
+     *
+     * @return JsonResponse
+     */
+    public function delete(Post $post)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $manager->remove($post);
+        $manager->flush();
+
+        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 }
