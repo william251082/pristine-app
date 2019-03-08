@@ -20,24 +20,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class BlogController extends AbstractController
 {
-    private const POSTS = [
-        [
-            'id' => 1,
-            'slug' => 'hello-world',
-            'title' => 'Hello World!',
-        ],
-        [
-            'id' => 2,
-            'slug' => 'hello-world2',
-            'title' => 'Hello World2!',
-        ],
-        [
-            'id' => 3,
-            'slug' => 'hello-world3',
-            'title' => 'Hello World3!',
-        ]
-    ];
-
     /**
      * @Route("/{page}", name="blog_list", defaults={"page": 5}, requirements={"page"="\d+"})
      * @param Request $request
@@ -48,14 +30,16 @@ class BlogController extends AbstractController
     public function list(Request $request, $page = 1)
     {
         $limit = $request->get('limit', 10);
+        $repository = $this->getDoctrine()->getRepository(Post::class);
+        $items = $repository->findAll();
 
         return $this->json(
             [
                 'page' => $page,
                 'limit' => $limit,
-                'data' => array_map(function ($item) {
-                    return $this->generateUrl('blog_by_id', ['id' => $item['id']]);
-                }, self::POSTS)
+                'data' => array_map(function (Post $item) {
+                    return $this->generateUrl('blog_by_slug', ['slug' => $item->getSlug()]);
+                }, $items)
             ]
         );
     }
@@ -69,7 +53,7 @@ class BlogController extends AbstractController
     public function post($id)
     {
         return $this->json(
-            self::POSTS[array_search($id, array_column(self::POSTS, 'id'))]
+            $this->getDoctrine()->getRepository(Post::class)->find($id)
         );
     }
 
@@ -82,7 +66,7 @@ class BlogController extends AbstractController
     public function postBySlug($slug)
     {
         return $this->json(
-            self::POSTS[array_search($slug, array_column(self::POSTS, 'slug'))]
+            $this->getDoctrine()->getRepository(Post::class)->findOneBy(['slug' => $slug])
         );
     }
 
