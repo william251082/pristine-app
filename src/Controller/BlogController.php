@@ -9,10 +9,12 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Yaml\Tests\B;
 
 /**
  * Class BlogController
@@ -46,28 +48,29 @@ class BlogController extends AbstractController
 
     /**
      * @Route("/post/{id}", name="blog_by_id", requirements={"id"="\d+"})
-     * @param $id
+     * @ParamConverter("post", class="App:Post")
+     * @param Post $post
      *
      * @return JsonResponse
      */
-    public function post($id)
+    public function post($post)
     {
-        return $this->json(
-            $this->getDoctrine()->getRepository(Post::class)->find($id)
-        );
+        // Same as doing find($id) on repository
+        return $this->json($post);
     }
 
     /**
      * @Route("/post/{slug}", name="blog_by_slug")
-     * @param $slug
+     * Another option to paramConverter is to type hint
+     * @ParamConverter("post", class="App:Post", options={"mapping": {"slug": "slug"}})
+     * @param Post $post
      *
      * @return JsonResponse
      */
-    public function postBySlug($slug)
+    public function postBySlug($post)
     {
-        return $this->json(
-            $this->getDoctrine()->getRepository(Post::class)->findOneBy(['slug' => $slug])
-        );
+        // Same as doing findOneBy(['slug' => $slug]) on repository
+        return $this->json($post);
     }
 
     /**
