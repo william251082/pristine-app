@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class BlogController
+ * Class PostController
  * @Route("/blog")
  */
 class PostController extends AbstractController

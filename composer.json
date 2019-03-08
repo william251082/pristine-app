@@ -60,8 +60,9 @@
         }
     },
     "require-dev": {
-        "symfony/maker-bundle": "^1.11",
-        "squizzlabs/php_codesniffer": "3.3.0",
-        "phpmd/phpmd": "@stable"
+        "doctrine/doctrine-fixtures-bundle": "^3.1",
+        "phpmd/phpmd": "@stable",
+        "squizlabs/php_codesniffer": "3.3.0",
+        "symfony/maker-bundle": "^1.11"
     }
 }
