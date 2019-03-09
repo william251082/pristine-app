@@ -5,7 +5,6 @@ namespace App\DataFixtures;
 use App\Entity\Comment;
 use App\Entity\Post;
 use App\Entity\User;
-use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
@@ -74,8 +73,7 @@ class PostFixtures extends Fixture
                 $comment->setPublished($this->faker->dateTimeThisYear);
                 $comment->setContent($this->faker->realText());
                 $comment->setAuthor($this->getReference('user_admin'));
-
-                $this->setReference("post_$i", $comment);
+                $comment->setPost($this->getReference("post_$i"));
 
                 $manager->persist($comment);
             }
