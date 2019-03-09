@@ -18,7 +18,7 @@ security:
             anonymous: true
             json_login:
                 # Authentication will happen here (token generation)
-                check_path: /api/login_ceck
+                check_path: /api/login_check
                 # Handle successful authentication
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 # Handle authentication failure (invalid credentials, no credentials, etc)
