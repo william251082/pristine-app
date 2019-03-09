@@ -7,9 +7,20 @@ use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class PostFixtures extends Fixture
 {
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $passwordEncoder;
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
+
     /**
      * @param ObjectManager $manager
      * @throws
@@ -63,7 +74,7 @@ class PostFixtures extends Fixture
         $user->setUsername('admin');
         $user->setEmail('admin@blog.com');
         $user->setName('Will');
-        $user->setPassword('secret');
+        $user->setPassword($this->passwordEncoder->encodePassword($user, 'secret'));
         $this->addReference('admin_user', $user);
 
         $manager->persist($user);
