@@ -2,11 +2,13 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Comment;
 use App\Entity\Post;
 use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Faker\Factory;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class PostFixtures extends Fixture
@@ -16,9 +18,15 @@ class PostFixtures extends Fixture
      */
     private $passwordEncoder;
 
+    /**
+     * @var Factory
+     */
+    private $faker;
+
     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->passwordEncoder = $passwordEncoder;
+        $this->faker = Factory::create();
     }
 
     /**
@@ -29,6 +37,7 @@ class PostFixtures extends Fixture
     {
         $this->loadUsers($manager);
         $this->loadPosts($manager);
+        $this->loadComments($manager);
     }
 
     /**
@@ -38,31 +47,41 @@ class PostFixtures extends Fixture
      */
     public function loadPosts(ObjectManager $manager)
     {
-        $user = $this->getReference('admin_user');
+        $user = $this->getReference('user_admin');
 
-        $post = new Post();
-        $post->setTitle('Post');
-        $post->setPublished(new DateTime('2018-07-01T12:00:00+00:00'));
-        $post->setContent('hi world');
-        $post->setAuthor($user);
-        $post->setSlug('hi-world');
+        for ($i = 0; $i < 100; $i++) {
+            $post = new Post();
+            $post->setTitle($this->faker->realText(30));
+            $post->setPublished($this->faker->dateTimeThisYear);
+            $post->setContent($this->faker->realText());
+            $post->setAuthor($user);
+            $post->setSlug($this->faker->slug);
 
-        $manager->persist($post);
+            $this->setReference("post_$i", $post);
 
-        $post = new Post();
-        $post->setTitle('Post2');
-        $post->setPublished(new DateTime('2018-07-01T12:00:00+00:00'));
-        $post->setContent('hi world');
-        $post->setAuthor($user);
-        $post->setSlug('hi-world2');
+            $manager->persist($post);
+        }
 
-        $manager->persist($post);
-
-        $manager->flush($post);
+        $manager->flush();
     }
 
     public function loadComments(ObjectManager $manager)
     {
+        for ($i = 0; $i < 100; $i++) {
+            for ($j = 0; $j < rand(1, 10); $j++) {
+                $comment = new Comment();
+                $comment->setContent($this->faker->realText(30));
+                $comment->setPublished($this->faker->dateTimeThisYear);
+                $comment->setContent($this->faker->realText());
+                $comment->setAuthor($this->getReference('user_admin'));
+
+                $this->setReference("post_$i", $comment);
+
+                $manager->persist($comment);
+            }
+        }
+
+        $manager->flush();
     }
 
     /**
@@ -75,7 +94,7 @@ class PostFixtures extends Fixture
         $user->setEmail('admin@blog.com');
         $user->setName('Will');
         $user->setPassword($this->passwordEncoder->encodePassword($user, 'secret'));
-        $this->addReference('admin_user', $user);
+        $this->addReference('user_admin', $user);
 
         $manager->persist($user);
         $manager->flush();
