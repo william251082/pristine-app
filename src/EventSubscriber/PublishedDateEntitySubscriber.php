@@ -30,7 +30,7 @@ class PublishedDateEntitySubscriber implements EventSubscriberInterface
      *
      * @throws \Exception
      */
-    public function getAuthenticatedUser(GetResponseForControllerResultEvent $event)
+    public function setDatePublished(GetResponseForControllerResultEvent $event)
     {
         $entity = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
