@@ -19,6 +19,7 @@ class UserContextBuilder implements SerializerContextBuilderInterface
      * @var SerializerContextBuilderInterface
      */
     private $decorated;
+
     /**
      * @var AuthorizationCheckerInterface
      */
@@ -32,12 +33,19 @@ class UserContextBuilder implements SerializerContextBuilderInterface
         $this->authorizationChecker = $authorizationChecker;
     }
 
+    /**
+     * @param Request $request
+     * @param bool $normalization
+     * @param array|null $extractedAttributes
+     *
+     * @return array
+     */
     public function createFromRequest(Request $request, bool $normalization, array $extractedAttributes = null): array
     {
         $context = $this->decorated->createFromRequest($request, $normalization, $extractedAttributes);
 
         // Class being serialized/deserialized
-        $resourceClass = $context['resource_class'] ?? null; // Default to nul if not set
+        $resourceClass = $context['resource_class'] ?? null; // Default to null if not set
 
         if (User::class === $resourceClass &&
             isset($context['groups']) &&
