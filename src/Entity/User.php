@@ -239,4 +239,12 @@ class User implements UserInterface
     {
         $this->retypedPassword = $retypedPassword;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->name;
+    }
 }

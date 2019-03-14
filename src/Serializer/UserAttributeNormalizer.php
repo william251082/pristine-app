@@ -9,9 +9,9 @@
 namespace App\Serializer;
 
 use App\Entity\User;
-use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\NormalizableInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerAwareInterface;
 use Symfony\Component\Serializer\SerializerAwareTrait;
 
@@ -60,6 +60,7 @@ class UserAttributeNormalizer implements ContextAwareNormalizerInterface, Serial
      * @param array $context
      *
      * @return array|bool|float|int|string
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function normalize($object, $format = null, array $context = [])
     {
@@ -83,17 +84,20 @@ class UserAttributeNormalizer implements ContextAwareNormalizerInterface, Serial
 
     /**
      * @param $object
-     * @param string|null $format
+     * @param $format
      * @param array $context
      *
      * @return array|bool|float|int|string
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    private function passOn($object, ?string $format, array $context)
+    private function passOn($object, $format, array $context)
     {
-        if (!$this->serializer instanceof NormalizableInterface) {
-            throw new  \LogicException(
-                'Cannot normalize object "%s" because the injected serializer is not a normalizer.',
-                $object
+        if (!$this->serializer instanceof NormalizerInterface) {
+            throw new \LogicException(
+                sprintf(
+                    'Cannot normalize object "%s" because the injected serializer is not a normalizer.',
+                    $object
+                )
             );
         }
 
