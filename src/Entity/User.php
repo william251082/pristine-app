@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Controller\ResetPasswordAction;
 
 /**
  * @ApiResource(
@@ -75,38 +76,41 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"get", "post", "get-comment-with-author", "get-post-with-author"})
-     * @Assert\NotBlank()
-     * @Assert\Length(min=6, max=255)
+     * @Assert\NotBlank(groups={"post"})
+     * @Assert\Length(min=6, max=255, groups={"post"})
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"post"})
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"post"})
      * @Assert\Regex(
      *     pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{7,}/",
-     *     message="Passwords must be 7 characters long and contain at least on digit, one upper and lowercase letter"
+     *     message="Passwords must be 7 characters long and contain at least on digit, one upper and lowercase letter",
+     *     groups={"post"}
      * )
      */
     private $password;
 
     /**
      * @Groups({"post"})
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"post"})
      * @Assert\Expression(
      *     "this.getPassword() === this.getRetypedPassword()",
-     *     message="Passwords do not match"
+     *     message="Passwords do not match",
+     *     groups={"post"}
      * )
      */
     private $retypedPassword;
 
     /**
-     * @Groups({"put-reset-password"}})
-     * @Assert\NotBlank()
+     * @Groups({"put-reset-password"})
+     * @Assert\NotBlank(groups={"post"})
      * @Assert\Regex(
      *     pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{7,}/",
-     *     message="Passwords must be 7 characters long and contain at least on digit, one upper and lowercase letter"
+     *     message="Passwords must be 7 characters long and contain at least on digit, one upper and lowercase letter",
+     *     groups={"post"}
      * )
      */
     private $newPassword;
@@ -131,17 +135,17 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"get", "post", "put", "get-comment-with-author", "get-post-with-author"})
-     * @Assert\NotBlank()
-     * @Assert\Length(min=6, max=255)
+     * @Assert\NotBlank(groups={"post"})
+     * @Assert\Length(min=6, max=255, groups={"post", "put"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"post", "put", "get-admin", "get-owner"})
-     * @Assert\NotBlank()
-     * @Assert\Email()
-     * @Assert\Length(min=6, max=255)
+     * @Assert\NotBlank(groups={"post"})
+     * @Assert\Email(groups={"post", "put"})
+     * @Assert\Length(min=6, max=255, groups={"post", "put"})
      */
     private $email;
 
