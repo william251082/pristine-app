@@ -17,7 +17,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *           "post"={
  *              "path"="/users/confirm"
  *          }
- *     }
+ *     },
+ *     itemOperations={}
  * )
  */
 class UserConfirmation
