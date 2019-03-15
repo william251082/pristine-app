@@ -43,10 +43,10 @@ class Mailer
             ]
         );
 
-        $message = (new \Swift_Message('Hello from blog api'))
+        $message = (new \Swift_Message('Please confirm your account!'))
             ->setFrom('william@xlab.nl')
             ->setTo($user->getEmail())
-            ->setBody($body);
+            ->setBody($body, 'text/html');
 
         $this->mailer->send($message);
     }
