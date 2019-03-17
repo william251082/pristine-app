@@ -3,5 +3,11 @@ api_platform:
         paths: ['%kernel.project_dir%/src/Entity']
     eager_loading:
         enabled: true
-#    collection:
+    collection:
 #        order_parameter_name: '_order'
+        pagination:
+#            enabled: false
+            page_parameter_name: _page
+            items_per_page: 4
+#            client_enabled: true
+#            enabled_parameter_name: pagination
