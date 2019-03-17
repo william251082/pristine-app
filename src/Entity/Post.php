@@ -14,12 +14,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
 
 /**
  * @ApiFilter(
  *     SearchFilter::class,
  *     properties={
- *          "id": "exact",
  *          "title": "partial",
  *          "content"= "partial",
  *          "author"= "exact",
@@ -31,6 +31,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
  *          "published"
  *      }
  * )
+ * @ApiFilter(RangeFilter::class, properties={"id"})
  * @ApiResource(
  *     attributes={"order"={"published": "DESC"}},
  *     itemOperations={
