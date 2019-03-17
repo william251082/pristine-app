@@ -22,8 +22,9 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
  *     SearchFilter::class,
  *     properties={
  *          "title": "partial",
- *          "content"= "partial",
- *          "author"= "exact",
+ *          "content": "partial",
+ *          "author": "exact",
+ *          "author.name": "partial"
  *     }
  * )
  * @ApiFilter(
