@@ -3,6 +3,15 @@ easy_admin:
         # List the entity class name you want to manage
         Post:
             class: App\Entity\Post
+            list:
+                actions: [ { name: 'Show' } ]
+            show:
+                fields:
+                    - id
+                    - title
+                    - published
+                    - { property: 'comments', template: 'easy_admin/Post/comments.html.twig' }
+                    - images
         Comment:
             class: App\Entity\Comment
         User:
