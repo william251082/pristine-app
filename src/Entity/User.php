@@ -302,14 +302,6 @@ class User implements UserInterface
     }
 
     /**
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return $this->name;
-    }
-
-    /**
      * @return mixed
      */
     public function getNewPassword(): ?string
@@ -403,5 +395,13 @@ class User implements UserInterface
     public function setConfirmationToken($confirmationToken): void
     {
         $this->confirmationToken = $confirmationToken;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->name;
     }
 }
