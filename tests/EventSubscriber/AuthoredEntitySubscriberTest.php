@@ -9,6 +9,7 @@
 namespace App\Tests\EventSubscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
+use App\Entity\Post;
 use App\Entity\User;
 use App\EventSubscriber\AuthoredEntitySubscriber;
 use PHPUnit\Framework\TestCase;
@@ -32,9 +33,23 @@ class AuthoredEntitySubscriberTest extends TestCase
 
     public function testSetAuthorCall()
     {
-        $tokenMock = $this->getMockBuilder(TokenInterface::class)
+        $tokenStorageMock = $this->getTokenStorageMock();
+
+        $eventMock = $this->getEventMock();
+
+        (new AuthoredEntitySubscriber($tokenStorageMock))->getAuthenticatedUser($eventMock);
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject
+     */
+    protected function getTokenStorageMock(): \PHPUnit\Framework\MockObject\MockObject
+    {
+        $tokenMock = $this
+            ->getMockBuilder(TokenInterface::class)
             ->getMockForAbstractClass();
-        $tokenMock->expects($this->once())
+        $tokenMock
+            ->expects($this->once())
             ->method('getUser')
             ->willReturn(new User());
 
@@ -42,14 +57,29 @@ class AuthoredEntitySubscriberTest extends TestCase
             ->getMockBuilder(TokenStorageInterface::class)
             ->getMockForAbstractClass();
 
-        $tokenStorageMock->expects($this->once())
+        $tokenStorageMock
+            ->expects($this->once())
             ->method('getToken')
             ->willReturn($tokenMock);
 
-        $eventMock = $this->getMockBuilder(GetResponseForControllerResultEvent::class)
+        return $tokenStorageMock;
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject
+     */
+    protected function getEventMock(): \PHPUnit\Framework\MockObject\MockObject
+    {
+        $eventMock = $this
+            ->getMockBuilder(GetResponseForControllerResultEvent::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        (new AuthoredEntitySubscriber($tokenStorageMock))->getAuthenticatedUser($eventMock);
+        $eventMock
+            ->expects($this->never())
+            ->method('getControllerResult')
+            ->willReturn(new Post());
+
+        return $eventMock;
     }
 }
