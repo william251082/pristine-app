@@ -70,6 +70,7 @@
         "fzaninotto/faker": "^1.8",
         "phpmd/phpmd": "@stable",
         "squizlabs/php_codesniffer": "3.3.0",
-        "symfony/maker-bundle": "^1.11"
+        "symfony/maker-bundle": "^1.11",
+        "symfony/phpunit-bridge": "4.2.*"
     }
 }
