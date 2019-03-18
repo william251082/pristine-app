@@ -31,3 +31,12 @@ d3dc2a4a-e273-415a-b4fa-40daa62bad18.xml
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+.env.test
+
+phpunit.xml
+bin/*
