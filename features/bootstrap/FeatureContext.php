@@ -11,6 +11,17 @@ use Doctrine\ORM\Tools\SchemaTool;
 
 class FeatureContext extends RestContext
 {
+    const USERS = [
+        'admin' => 'secret123#'
+    ];
+    const AUTH_URL = '/api/login_check';
+    const AUTH_JSON = '
+        {
+            "username": "%s",
+            "password": "%s"
+        }
+    ';
+
     /**
      * @var PostFixtures
      */
@@ -33,7 +44,8 @@ class FeatureContext extends RestContext
      * @param PostFixtures $fixtures
      * @param EntityManagerInterface $manager
      */
-    public function __construct(Request $request, PostFixtures $fixtures, EntityManagerInterface $manager) {
+    public function __construct(Request $request, PostFixtures $fixtures, EntityManagerInterface $manager)
+    {
         parent::__construct($request);
         $this->fixtures = $fixtures;
         $this->matcher = (new SimpleFactory())->createMatcher();
@@ -41,7 +53,33 @@ class FeatureContext extends RestContext
     }
 
     /**
-     * @BeforeScenario @createShema
+     * @Given I am authenticated as :user
+     *
+     * @param $user
+     */
+    public function iAmAuthenticatedAs($user)
+    {
+        $this->request->setHttpHeader('Content-Type', 'application/ld+json');
+        $this->request->send(
+            'POST',
+            $this->locatePath(self::AUTH_URL),
+            [],
+            [],
+            sprintf(self::AUTH_JSON, $user, self::USERS[$user])
+        );
+
+        $json = json_decode($this->request->getContent(), true);
+
+        // Make sure the token was returned
+        $this->assertTrue(isset($json['token']));
+
+        $token = $json['token'];
+
+        $this->request->setHttpHeader('Authorization', 'Bearer '.$token);
+    }
+
+    /**
+     * @BeforeScenario @createSchema
      */
     public function createSchema()
     {
