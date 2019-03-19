@@ -1,48 +1,62 @@
 <?php
 
-use Behat\Behat\Context\Context;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\KernelInterface;
+use App\DataFixtures\PostFixtures;
+use Behatch\Context\RestContext;
+use Behatch\HttpCall\Request;
+use Coduo\PHPMatcher\Factory\SimpleFactory;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\SchemaTool;
 
-/**
- * This context class contains the definitions of the steps used by the demo 
- * feature file. Learn how to get started with Behat and BDD on Behat's website.
- * 
- * @see http://behat.org/en/latest/quick_start.html
- */
-class FeatureContext implements Context
+class FeatureContext extends RestContext
 {
     /**
-     * @var KernelInterface
+     * @var PostFixtures
      */
-    private $kernel;
+    private $fixtures;
 
     /**
-     * @var Response|null
+     * @var \Coduo\PHPMatcher\Matcher
      */
-    private $response;
+    private $matcher;
 
-    public function __construct(KernelInterface $kernel)
-    {
-        $this->kernel = $kernel;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $manager;
+
+    /**
+     * FeatureContext constructor.
+     *
+     * @param Request $request
+     * @param PostFixtures $fixtures
+     * @param EntityManagerInterface $manager
+     */
+    public function __construct(Request $request, PostFixtures $fixtures, EntityManagerInterface $manager) {
+        parent::__construct($request);
+        $this->fixtures = $fixtures;
+        $this->matcher = (new SimpleFactory())->createMatcher();
+        $this->manager = $manager;
     }
 
     /**
-     * @When a demo scenario sends a request to :path
+     * @BeforeScenario @createShema
      */
-    public function aDemoScenarioSendsARequestTo(string $path)
+    public function createSchema()
     {
-        $this->response = $this->kernel->handle(Request::create($path, 'GET'));
-    }
+        // Get entity metadata
+        $classes = $this->manager->getMetadataFactory()->getAllMetadata();
 
-    /**
-     * @Then the response should be received
-     */
-    public function theResponseShouldBeReceived()
-    {
-        if ($this->response === null) {
-            throw new \RuntimeException('No response received');
-        }
+        // Drop and create schema
+        $schemaTool = new SchemaTool($this->manager);
+        $schemaTool->dropSchema($classes);
+        $schemaTool->createSchema($classes);
+
+        // Load Fixtures
+        $purger = new ORMPurger($this->manager);
+        $fixturesExecutor = new ORMExecutor($this->manager, $purger);
+
+        $fixturesExecutor->execute([$this->fixtures]);
     }
 }
