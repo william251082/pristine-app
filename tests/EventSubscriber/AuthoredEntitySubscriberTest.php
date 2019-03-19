@@ -33,19 +33,29 @@ class AuthoredEntitySubscriberTest extends TestCase
         );
     }
 
-    public function testSetAuthorCall()
+    /**
+     * @dataProvider providerSetAuthorCall
+     *
+     * @param string $className
+     * @param bool $shouldCallSetAuthor
+     * @param string $method
+     */
+    public function testSetAuthorCall(string $className, bool $shouldCallSetAuthor, string $method)
     {
-        $entityMock = $this->getEntityMock(Post::class, true);
+        $entityMock = $this->getEntityMock($className, $shouldCallSetAuthor);
         $tokenStorageMock = $this->getTokenStorageMock();
-        $eventMock = $this->getEventMock('POST', $entityMock);
+        $eventMock = $this->getEventMock($method, $entityMock);
 
         (new AuthoredEntitySubscriber($tokenStorageMock))->getAuthenticatedUser($eventMock);
+    }
 
-        $entityMock = $this->getEntityMock('NonExisting', false);
-        $tokenStorageMock = $this->getTokenStorageMock();
-        $eventMock = $this->getEventMock('GET', $entityMock);
-
-        (new AuthoredEntitySubscriber($tokenStorageMock))->getAuthenticatedUser($eventMock);
+    public function providerSetAuthorCall(): array
+    {
+        return [
+            [Post::class, true, 'POST'],
+            [Post::class, false, 'GET'],
+            ['NonExisting', false, 'POST']
+        ];
     }
 
     /**
