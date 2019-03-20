@@ -6,10 +6,9 @@ import {createBrowserHistory} from 'history'
 import App from "./components/App";
 import Route from "react-router/es/Route";
 import ConnectedRouter from "react-router-redux/es/ConnectedRouter";
+import reducer from "./reducer";
 
-const store = createStore(
-    state => state
-);
+const store = createStore(reducer);
 const history = createBrowserHistory();
 
 ReactDOM.render((
