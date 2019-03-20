@@ -15,7 +15,9 @@ const mapDispatchToProps = {
 class PostListContainer extends React.Component
 {
     componentDidMount() {
-        console.log(this.props);
+        setTimeout(this.props.postAdd, 1000);
+        setTimeout(this.props.postAdd, 3000);
+        setTimeout(this.props.postAdd, 5000);
         this.props.postList();
     }
 
