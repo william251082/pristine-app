@@ -73,7 +73,6 @@ class FeatureContext extends RestContext
         );
 
         $json = json_decode($this->request->getContent(), true);
-        var_dump($json);
 
         // Make sure the token was returned
         $this->assertTrue(isset($json['token']));
