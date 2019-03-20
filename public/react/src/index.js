@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {createStore} from "redux";
-import createHistory from "history/createBrowserHistory";
 import {Provider} from "react-redux";
+import {createBrowserHistory} from 'history'
 import App from "./components/App";
 import Route from "react-router/es/Route";
 import ConnectedRouter from "react-router-redux/es/ConnectedRouter";
@@ -10,7 +10,7 @@ import ConnectedRouter from "react-router-redux/es/ConnectedRouter";
 const store = createStore(
     state => state
 );
-const history = createHistory();
+const history = createBrowserHistory();
 
 ReactDOM.render((
     <Provider store={store}>

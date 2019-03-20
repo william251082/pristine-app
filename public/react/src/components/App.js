@@ -1,7 +1,7 @@
 import React from 'react';
 import LoginForm from "./LoginForm";
 import {Route, Switch} from "react-router";
-import PostList from "./PostList";
+import PostListContainer from "./PostListContainer";
 
 class App extends React.Component
 {
@@ -10,7 +10,7 @@ class App extends React.Component
             <div>
                 <Switch>
                     <Route path="/login" component={LoginForm}/>
-                    <Route path="/posts" component={PostList}/>
+                    <Route path="/posts" component={PostListContainer}/>
                 </Switch>
             </div>
         )
