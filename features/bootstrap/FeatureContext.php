@@ -117,4 +117,15 @@ class FeatureContext extends RestContext
 
         $fixturesExecutor->execute([$this->fixtures]);
     }
+
+    /**
+     * @BeforeScenario @image
+     */
+    public function prepareImages()
+    {
+        copy(
+            __DIR__.'/../fixtures/screen.png',
+            __DIR__.'/../fixtures/files/screen.png'
+        );
+    }
 }
