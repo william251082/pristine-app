@@ -1,6 +1,7 @@
 <?php
 
 use App\DataFixtures\PostFixtures;
+use Behat\Gherkin\Node\PyStringNode;
 use Behatch\Context\RestContext;
 use Behatch\HttpCall\Request;
 use Coduo\PHPMatcher\Factory\SimpleFactory;
@@ -9,10 +10,13 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 
+/**
+ * Class FeatureContext
+ */
 class FeatureContext extends RestContext
 {
     const USERS = [
-        'admin' => 'secret123#'
+        'john_doe' => 'secret123#'
     ];
     const AUTH_URL = '/api/login_check';
     const AUTH_JSON = '
@@ -69,6 +73,7 @@ class FeatureContext extends RestContext
         );
 
         $json = json_decode($this->request->getContent(), true);
+        var_dump($json);
 
         // Make sure the token was returned
         $this->assertTrue(isset($json['token']));
@@ -79,7 +84,23 @@ class FeatureContext extends RestContext
     }
 
     /**
+     * @Then the JSON matches expected template:
+     *
+     * @param PyStringNode $json
+     */
+    public function theJsonMatchesExpectedTemplate(PyStringNode $json)
+    {
+        $actual = $this->request->getContent();
+        var_dump($actual);
+        $this->assertTrue(
+            $this->matcher->match($actual, $json->getRaw())
+        );
+    }
+
+    /**
      * @BeforeScenario @createSchema
+     *
+     * @throws \Doctrine\ORM\Tools\ToolsException
      */
     public function createSchema()
     {
