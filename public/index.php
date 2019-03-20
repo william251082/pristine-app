@@ -20,7 +20,7 @@ if (!isset($_SERVER['APP_ENV']) || !isset($_ENV['APP_ENV'])) {
 $env = $_SERVER['APP_ENV'] ?? 'dev';
 $debug = (bool) ($_SERVER['APP_DEBUG'] ?? ('prod' !== $env));
 
-if ($_SERVER['APP_DEBUG']) {
+if ($debug) {
     umask(0000);
 
     Debug::enable();
@@ -34,7 +34,7 @@ if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? $_ENV['TRUSTED_HOSTS'] ?? false
     Request::setTrustedHosts([$trustedHosts]);
 }
 
-$kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
+$kernel = new Kernel($env, $debug);
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
 $response->send();

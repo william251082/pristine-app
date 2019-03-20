@@ -16,7 +16,7 @@ use Doctrine\ORM\Tools\SchemaTool;
 class FeatureContext extends RestContext
 {
     const USERS = [
-        'john_doe' => 'secret123#'
+        'admin' => 'secret123#'
     ];
     const AUTH_URL = '/api/login_check';
     const AUTH_JSON = '
