@@ -1,17 +1,12 @@
 import React from 'react';
 import timeago from 'timeago.js'
 import {Link} from "react-router-dom";
-import {Spinner} from "./Spinner";
 import {Message} from "./Message";
 
 class PostList extends React.Component
 {
     render() {
-        const {posts, isFetching} = this.props;
-
-        if (isFetching) {
-            return (<Spinner/>);
-        }
+        const {posts} = this.props;
 
         if (null === posts || 0 === posts.length) {
             return (<Message message="No Posts"/>);

@@ -2,6 +2,7 @@ import React from 'react';
 import PostList from "./PostList";
 import {postListFetch} from "../actions/actions";
 import {connect} from "react-redux";
+import {Spinner} from "./Spinner";
 
 const mapStateToProps = state => ({
     ...state.postList
@@ -18,7 +19,13 @@ class PostListContainer extends React.Component
     }
 
     render() {
-        return(<PostList posts={this.props.posts} isFetching={this.props.isFetching} />)
+        const {posts, isFetching} = this.props;
+
+        if (isFetching) {
+            return(<Spinner/>)
+        }
+
+        return(<PostList posts={this.props.posts}/>)
     }
 }
 

@@ -1,15 +1,10 @@
 import React from 'react';
 import timeago from 'timeago.js';
-import {Spinner} from "./Spinner";
 import {Message} from "./Message";
 
 export class Post extends React.Component {
     render() {
-        const {post, isFetching} = this.props;
-
-        if (isFetching) {
-            return (<Spinner/>);
-        }
+        const {post} = this.props;
 
         if (null === post) {
             return (<Message message="Post does not exist"/>);
