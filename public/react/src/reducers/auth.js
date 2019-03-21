@@ -6,6 +6,7 @@ export default (state = {
 }, action) => {
     switch (action.type) {
         case USER_LOGIN_SUCCESS:
+            console.log('From reducer: ' + action.token);
             return {
                 ...state,
                 token: action.token,
