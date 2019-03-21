@@ -22,7 +22,7 @@ class PostListContainer extends React.Component
     }
 
     render() {
-        return(<PostList posts={this.props.posts} />)
+        return(<PostList posts={this.props.posts} isFetching={this.props.isFetching} />)
     }
 }
 
