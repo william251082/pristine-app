@@ -7,7 +7,7 @@ import {
     POST_LIST_ERROR,
     POST_LIST_RECEIVED,
     POST_LIST_REQUEST, POST_RECEIVED,
-    POST_REQUEST, POST_UNLOAD
+    POST_REQUEST, POST_UNLOAD, USER_LOGIN_SUCCESS
 } from "./constants";
 
 export const postListRequest = () => ({
@@ -90,11 +90,19 @@ export const commentListFetch = (id) => {
     }
 };
 
+export const userLoginSuccess = (token, userId) => {
+  return {
+    type: USER_LOGIN_SUCCESS,
+    token,
+    userId
+  }
+};
+
 export const userLoginAttempt = (username, password) => {
     return(dispatch) => {
         return requests
             .post('/login_check', {username, password})
-            .then(response => console.log(response))
+            .then(response => dispatch(userLoginSuccess(response.token, response.userId)))
             .catch(error => {console.log('Login failed')});
     }
 };
