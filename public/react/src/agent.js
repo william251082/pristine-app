@@ -17,7 +17,6 @@ const tokenPlugin = secured => {
 
 export const requests = {
     get: (url, secured = false) => {
-        console.log(token);
         return superagent
             .get(`${API_ROOT}${url}`)
             .use(tokenPlugin(secured))

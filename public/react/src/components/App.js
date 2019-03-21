@@ -5,6 +5,11 @@ import PostListContainer from "./PostListContainer";
 import Header from "./Header";
 import PostContainer from "./PostContainer";
 import {requests} from "../agent";
+import {connect} from "react-redux";
+
+const mapStateToProps = state => ({
+    ...state.auth
+});
 
 class App extends React.Component
 {
@@ -17,9 +22,11 @@ class App extends React.Component
         }
     }
     render() {
+        const {isAuthenticated} = this.props;
+
         return(
             <div>
-                <Header/>
+                <Header isAuthenticated={isAuthenticated}/>
                 <Switch>
                     <Route path="/login" component={LoginForm}/>
                     <Route path="/post/:id" component={PostContainer}/>
@@ -30,4 +37,4 @@ class App extends React.Component
     }
 }
 
-export default App;
+export default connect(mapStateToProps, null) (App);
