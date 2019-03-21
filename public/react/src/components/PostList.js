@@ -1,6 +1,8 @@
 import React from 'react';
 import timeago from 'timeago.js'
 import {Link} from "react-router-dom";
+import {Spinner} from "./Spinner";
+import {Message} from "./Message";
 
 class PostList extends React.Component
 {
@@ -8,11 +10,11 @@ class PostList extends React.Component
         const {posts, isFetching} = this.props;
 
         if (isFetching) {
-            return (<div><i className="fas fa-spinner fa-spin"/></div>);
+            return (<Spinner/>);
         }
 
         if (null === posts || 0 === posts.length) {
-            return (<div>No Posts</div>);
+            return (<Message message="No Posts"/>);
         }
 
         return (
