@@ -1,28 +1,33 @@
 import React from 'react';
-import {postFetch} from "../actions/actions";
+import {postFetch, postUnload} from "../actions/actions";
 import {connect} from "react-redux";
+import {Post} from "./Post";
 
 const mapStateToProps = state => ({
     ...state.post
 });
 
 const mapDispatchToProps = {
-    postFetch
+    postFetch,
+    postUnload
 };
 
 class PostContainer extends React.Component
 {
     componentDidMount() {
-        // console.log(this.props);
-        // console.log(this.props.match.params.id);
-        this.props.postFetch(this.props.match.params.id).then(_ => console.log(this.props.post));
+        // setTimeout(() => this.props.postFetch(this.props.match.params.id),4000);
+        this.props.postFetch(this.props.match.params.id)
+    }
+
+    componentWillUnmount() {
+        this.props.postUnload();
     }
 
     render() {
+        const {isFetching, post} = this.props;
+
         return (
-            <div>
-                Hello from Post!
-            </div>
+            <Post isFetching={isFetching} post={post}/>
         )
     }
 }

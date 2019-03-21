@@ -1,4 +1,4 @@
-import {POST_ERROR, POST_RECEIVED, POST_REQUEST} from "../actions/constants";
+import {POST_ERROR, POST_RECEIVED, POST_REQUEST, POST_UNLOAD} from "../actions/constants";
 
 export default (state = {
     post: null,
@@ -20,6 +20,12 @@ export default (state = {
             return {
                 ...state,
                 isFetching: false
+            };
+        case POST_UNLOAD:
+            return {
+                ...state,
+                isFetching: false,
+                post: null
             };
         default:
             return state;

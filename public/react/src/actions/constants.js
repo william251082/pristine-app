@@ -6,3 +6,4 @@ export const POST_LIST_ADD = 'POST_LIST_ADD';
 export const POST_REQUEST = 'POST_REQUEST';
 export const POST_RECEIVED = 'POST_RECEIVED';
 export const POST_ERROR = 'POST_ERROR';
+export const POST_UNLOAD = 'POST_UNLOAD';

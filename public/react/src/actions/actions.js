@@ -5,7 +5,7 @@ import {
     POST_LIST_ERROR,
     POST_LIST_RECEIVED,
     POST_LIST_REQUEST, POST_RECEIVED,
-    POST_REQUEST
+    POST_REQUEST, POST_UNLOAD
 } from "./constants";
 
 export const postListRequest = () => ({
@@ -44,6 +44,10 @@ export const postError = (error) => ({
 export const postReceived = (data) => ({
     type: POST_RECEIVED,
     data
+});
+
+export const postUnload = () => ({
+    type: POST_UNLOAD
 });
 
 export const postFetch = (id) => {

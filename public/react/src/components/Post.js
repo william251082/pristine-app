@@ -3,7 +3,15 @@ import timeago from 'timeago.js';
 
 export class Post extends React.Component {
     render() {
-        const {post} = this.props;
+        const {post, isFetching} = this.props;
+
+        if (isFetching) {
+            return (<div><i className="fas fa-spinner fa-spin"/></div>);
+        }
+
+        if (null === post) {
+            return (<div>No Post</div>);
+        }
 
         return (
             <div className="card mb-3 mt-3 shadow-sm">
