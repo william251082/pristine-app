@@ -1,0 +1,8 @@
+export const POST_LIST_REQUEST = 'POST_LIST_REQUEST';
+export const POST_LIST_RECEIVED = 'POST_LIST_RECEIVED';
+export const POST_LIST_ERROR = 'POST_LIST_ERROR';
+export const POST_LIST_ADD = 'POST_LIST_ADD';
+
+export const POST_REQUEST = 'POST_REQUEST';
+export const POST_RECEIVED = 'POST_RECEIVED';
+export const POST_ERROR = 'POST_ERROR';

@@ -1,4 +1,4 @@
-import {POST_LIST_REQUEST, POST_LIST_ADD, POST_LIST_RECEIVED, POST_LIST_ERROR} from "../actions/actions";
+import {POST_LIST_REQUEST, POST_LIST_ADD, POST_LIST_RECEIVED, POST_LIST_ERROR} from "../actions/constants";
 
 export default (state = {
     posts: null,
