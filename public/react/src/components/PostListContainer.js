@@ -19,7 +19,7 @@ class PostListContainer extends React.Component
     }
 
     render() {
-        const {posts, isFetching} = this.props;
+        const {isFetching} = this.props;
 
         if (isFetching) {
             return(<Spinner/>)

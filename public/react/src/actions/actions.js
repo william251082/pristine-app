@@ -1,5 +1,7 @@
 import {requests} from "../agent";
 import {
+    COMMENT_LIST_ERROR, COMMENT_LIST_RECEIVED,
+    COMMENT_LIST_REQUEST, COMMENT_LIST_UNLOAD,
     POST_ERROR,
     POST_LIST_ADD,
     POST_LIST_ERROR,
@@ -57,6 +59,34 @@ export const postFetch = (id) => {
             .get(`/posts/${id}`)
             .then(response => dispatch(postReceived(response)))
             .catch(error => dispatch(postError(error)));
+    }
+};
+
+export const commentListRequest = () => ({
+    type: COMMENT_LIST_REQUEST,
+});
+
+export const commentListError = (error) => ({
+    type: COMMENT_LIST_ERROR,
+    error
+});
+
+export const commentListReceived = (data) => ({
+    type: COMMENT_LIST_RECEIVED,
+    data
+});
+
+export const commentListUnload = () => ({
+    type: COMMENT_LIST_UNLOAD
+});
+
+export const commentListFetch = (id) => {
+    return (dispatch) => {
+        dispatch(commentListRequest());
+        return requests
+            .get(`/posts/${id}/comments`)
+            .then(response => dispatch(commentListReceived(response)))
+            .catch(error => dispatch(commentListError(error)));
     }
 };
 

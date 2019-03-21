@@ -3,6 +3,7 @@ import {postFetch, postUnload} from "../actions/actions";
 import {connect} from "react-redux";
 import {Post} from "./Post";
 import {Spinner} from "./Spinner";
+import CommentListContainer from "./CommentListContainer";
 
 const mapStateToProps = state => ({
     ...state.post
@@ -32,7 +33,10 @@ class PostContainer extends React.Component
         }
 
         return (
-            <Post post={post}/>
+            <div>
+                <Post post={post}/>
+                {post && <CommentListContainer postId={this.props.match.params.id}/>}
+            </div>
         )
     }
 }
