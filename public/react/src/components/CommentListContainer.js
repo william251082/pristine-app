@@ -5,7 +5,7 @@ import {Spinner} from "./Spinner";
 import CommentList from "./CommentList";
 
 const mapStateToProps = state => ({
-    ...state.post
+    ...state.commentList
 });
 
 const mapDispatchToProps = {
