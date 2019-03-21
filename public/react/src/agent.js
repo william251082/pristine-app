@@ -16,11 +16,13 @@ const tokenPlugin = secured => {
 };
 
 export const requests = {
-    get: (url, secured = false) =>
-        superagent
+    get: (url, secured = false) => {
+        console.log(token);
+        return superagent
             .get(`${API_ROOT}${url}`)
             .use(tokenPlugin(secured))
-            .then(responseBody),
+            .then(responseBody)
+    },
     post: (url, body = null, secured = true) => {
         console.log(token);
         return superagent
