@@ -90,6 +90,15 @@ export const commentListFetch = (id) => {
     }
 };
 
+export const userLoginAttempt = (username, password) => {
+    return(dispatch) => {
+        return requests
+            .post('/login_check', {username, password})
+            .then(response => console.log(response))
+            .catch(error => {console.log('Login failed')});
+    }
+};
+
 export const postAdd = () => ({
     type: POST_LIST_ADD,
     data: [
