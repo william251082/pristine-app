@@ -6,10 +6,15 @@ import Header from "./Header";
 import PostContainer from "./PostContainer";
 import {requests} from "../agent";
 import {connect} from "react-redux";
+import {userProfileFetch} from "../actions/actions";
 
 const mapStateToProps = state => ({
     ...state.auth
 });
+
+const mapDispatchToProps = {
+    userProfileFetch
+};
 
 class App extends React.Component
 {
@@ -21,6 +26,17 @@ class App extends React.Component
             requests.setToken(token);
         }
     }
+
+    componentDidUpdate(prevProps) {
+        const {userId, userProfileFetch} = this.props;
+
+        if (prevProps.userId !== userId && userId !== null) {
+            console.log(`Old user id ${prevProps.userId}`);
+            console.log(`New user id ${userId}`);
+            userProfileFetch(userId);
+        }
+    }
+
     render() {
         const {isAuthenticated} = this.props;
 
@@ -37,4 +53,4 @@ class App extends React.Component
     }
 }
 
-export default connect(mapStateToProps, null) (App);
+export default connect(mapStateToProps, mapDispatchToProps) (App);
