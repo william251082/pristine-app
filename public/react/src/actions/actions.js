@@ -139,7 +139,7 @@ export const userProfileFetch = (userId) => {
         return requests
             .get(`/users/${userId}`, true)
             .then(response => dispatch(userProfileReceived(userId, response)))
-            .catch(error => dispatch(userProfileError(userId)))
+            .catch(() => dispatch(userProfileError(userId)))
     }
 };
 

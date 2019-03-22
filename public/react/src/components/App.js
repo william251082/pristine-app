@@ -29,7 +29,6 @@ class App extends React.Component
 
     componentDidUpdate(prevProps) {
         const {userId, userProfileFetch} = this.props;
-
         if (prevProps.userId !== userId && userId !== null) {
             console.log(`Old user id ${prevProps.userId}`);
             console.log(`New user id ${userId}`);
@@ -38,11 +37,11 @@ class App extends React.Component
     }
 
     render() {
-        const {isAuthenticated} = this.props;
+        const {isAuthenticated, userData} = this.props;
 
         return(
             <div>
-                <Header isAuthenticated={isAuthenticated}/>
+                <Header isAuthenticated={isAuthenticated} userData={userData}/>
                 <Switch>
                     <Route path="/login" component={LoginForm}/>
                     <Route path="/post/:id" component={PostContainer}/>
@@ -53,4 +52,4 @@ class App extends React.Component
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps) (App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
