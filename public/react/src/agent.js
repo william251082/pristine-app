@@ -23,7 +23,6 @@ export const requests = {
             .then(responseBody)
     },
     post: (url, body = null, secured = true) => {
-        console.log(token);
         return superagent
             .post(`${API_ROOT}${url}`, body)
             .use(tokenPlugin(secured))
