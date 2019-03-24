@@ -1,5 +1,5 @@
 import React from "react";
-import {Field, reduxForm, SubmissionError} from "redux-form";
+import {Field, reduxForm} from "redux-form";
 import {connect} from "react-redux";
 import {renderField} from "../form";
 import {commentAdd} from "../actions/actions";

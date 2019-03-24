@@ -20,6 +20,7 @@ import {
     USER_SET_ID
 } from "./constants";
 import {SubmissionError} from "redux-form";
+import {parseApiErrors} from "../apiUtils";
 
 export const postListRequest = () => ({
     type: POST_LIST_REQUEST,
@@ -133,6 +134,7 @@ export const commentAdd = (comment, postId) => {
             .post('/comments', {content: comment, post: `/api/posts/${postId}`})
             .then(response => dispatch(commentAdded(response)))
             .catch(error => {
+                console.log(parseApiErrors(error));
                 throw new SubmissionError({content: 'This is an error.'})
             })
     }
