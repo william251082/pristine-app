@@ -1,6 +1,6 @@
 import React from 'react';
 import PostList from "./PostList";
-import {postListFetch} from "../actions/actions";
+import {postListFetch, postListSetPage} from "../actions/actions";
 import {connect} from "react-redux";
 import {Spinner} from "./Spinner";
 import {Paginator} from "./Paginator";
@@ -10,7 +10,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-    postListFetch
+    postListFetch, postListSetPage
 };
 
 class PostListContainer extends React.Component
@@ -19,8 +19,17 @@ class PostListContainer extends React.Component
         this.props.postListFetch();
     }
 
+    componentDidUpdate(prevProps) {
+        const {currentPage, postListFetch} = this.props;
+
+        if (prevProps.currentPage !== currentPage) {
+            postListFetch(currentPage);
+        }
+    }
+
+
     render() {
-        const {isFetching} = this.props;
+        const {posts, isFetching, postListSetPage, currentPage} = this.props;
 
         if (isFetching) {
             return(<Spinner/>)
@@ -28,8 +37,8 @@ class PostListContainer extends React.Component
 
         return (
             <div>
-                <PostList posts={this.props.posts}/>
-                <Paginator currentPage={4} pageCount={5}/>
+                <PostList posts={posts}/>
+                <Paginator currentPage={currentPage} pageCount={5} setPage={postListSetPage}/>
             </div>
             )
     }

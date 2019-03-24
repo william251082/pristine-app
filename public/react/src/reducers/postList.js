@@ -1,8 +1,16 @@
-import {POST_LIST_REQUEST, POST_LIST_ADD, POST_LIST_RECEIVED, POST_LIST_ERROR} from "../actions/constants";
+import {
+    POST_LIST_REQUEST,
+    POST_LIST_ADD,
+    POST_LIST_RECEIVED,
+    POST_LIST_ERROR,
+    POST_LIST_SET_PAGE
+} from "../actions/constants";
 
 export default (state = {
     posts: null,
-    isFetching: false
+    isFetching: false,
+    currentPage: 1,
+    pageCount: null
 }, action) => {
     switch (action.type) {
         case POST_LIST_REQUEST:
@@ -32,6 +40,11 @@ export default (state = {
                 posts: state.posts ? state.posts.concat(action.data) : state.posts
             };
             return state;
+        case POST_LIST_SET_PAGE:
+            return {
+                ...state,
+                currentPage: action.page
+            };
         default:
             return state;
     }

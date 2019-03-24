@@ -9,7 +9,7 @@ import {
     POST_LIST_ADD,
     POST_LIST_ERROR,
     POST_LIST_RECEIVED,
-    POST_LIST_REQUEST,
+    POST_LIST_REQUEST, POST_LIST_SET_PAGE,
     POST_RECEIVED,
     POST_REQUEST,
     POST_UNLOAD,
@@ -35,11 +35,16 @@ export const postListReceived = (data) => ({
     data
 });
 
-export const postListFetch = () => {
+export const postListSetPage = (page) => ({
+    type: POST_LIST_SET_PAGE,
+    page
+});
+
+export const postListFetch = (page = 1) => {
   return (dispatch) => {
       dispatch(postListRequest());
       return requests
-          .get('/posts')
+          .get(`/posts?_page=${page}`)
           .then(response => dispatch(postListReceived(response)))
           .catch(error => dispatch(postListError(error)));
   }
