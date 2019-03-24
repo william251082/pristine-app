@@ -9,7 +9,6 @@ export const tokenMiddleware = store => next => action => {
             requests.setToken(action.token);
             break;
         default:
-
     }
 
     next(action);
