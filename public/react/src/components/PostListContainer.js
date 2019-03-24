@@ -3,6 +3,7 @@ import PostList from "./PostList";
 import {postListFetch} from "../actions/actions";
 import {connect} from "react-redux";
 import {Spinner} from "./Spinner";
+import {Paginator} from "./Paginator";
 
 const mapStateToProps = state => ({
     ...state.postList
@@ -25,7 +26,12 @@ class PostListContainer extends React.Component
             return(<Spinner/>)
         }
 
-        return(<PostList posts={this.props.posts}/>)
+        return (
+            <div>
+                <PostList posts={this.props.posts}/>
+                <Paginator/>
+            </div>
+            )
     }
 }
 
