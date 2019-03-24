@@ -140,7 +140,9 @@ export const commentAdd = (comment, postId) => {
             .post('/comments', {content: comment, post: `/api/posts/${postId}`})
             .then(response => dispatch(commentAdded(response)))
             .catch(error => {
-                console.log(parseApiErrors(error));
+                if (401 === error.response.status) {
+                    dispatch(userLogout());
+                }
                 throw new SubmissionError({content: 'This is an error.'})
             })
     }
