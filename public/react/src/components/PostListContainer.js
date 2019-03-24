@@ -29,7 +29,7 @@ class PostListContainer extends React.Component
         return (
             <div>
                 <PostList posts={this.props.posts}/>
-                <Paginator/>
+                <Paginator currentPage={4} pageCount={5}/>
             </div>
             )
     }
