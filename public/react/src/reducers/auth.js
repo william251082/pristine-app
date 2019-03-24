@@ -1,4 +1,9 @@
-import {USER_LOGIN_SUCCESS, USER_LOGOUT, USER_PROFILE_RECEIVED, USER_SET_ID} from "../actions/constants";
+import {
+    USER_LOGIN_SUCCESS,
+    USER_LOGOUT,
+    USER_PROFILE_RECEIVED,
+    USER_SET_ID
+} from "../actions/constants";
 
 export default (state = {
     token: null,
