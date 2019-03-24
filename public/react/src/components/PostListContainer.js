@@ -16,20 +16,33 @@ const mapDispatchToProps = {
 class PostListContainer extends React.Component
 {
     componentDidMount() {
-        this.props.postListFetch();
+        this.props.postListFetch(this.getQueryParamPage());
     }
 
     componentDidUpdate(prevProps) {
-        const {currentPage, postListFetch} = this.props;
+        const {currentPage, postListFetch, postListSetPage} = this.props;
+
+        if (prevProps.match.params.page !== this.getQueryParamPage()) {
+            postListSetPage(this.getQueryParamPage());
+        }
 
         if (prevProps.currentPage !== currentPage) {
             postListFetch(currentPage);
         }
     }
 
+    getQueryParamPage() {
+        return Number(this.props.match.params.page) || 1;
+    }
+
+    changePage(page) {
+        const {history, postListSetPage} = this.props;
+        postListSetPage(page);
+        history.push(`/${page}`);
+    }
 
     render() {
-        const {posts, isFetching, postListSetPage, currentPage} = this.props;
+        const {posts, isFetching, currentPage} = this.props;
 
         if (isFetching) {
             return(<Spinner/>)
@@ -38,7 +51,7 @@ class PostListContainer extends React.Component
         return (
             <div>
                 <PostList posts={posts}/>
-                <Paginator currentPage={currentPage} pageCount={5} setPage={postListSetPage}/>
+                <Paginator currentPage={currentPage} pageCount={5} setPage={this.changePage.bind(this)} />
             </div>
             )
     }

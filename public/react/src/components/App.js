@@ -53,7 +53,7 @@ class App extends React.Component
                 <Switch>
                     <Route path="/login" component={LoginForm}/>
                     <Route path="/post/:id" component={PostContainer}/>
-                    <Route path="/" component={PostListContainer}/>
+                    <Route path="/:page?" component={PostListContainer}/>
                 </Switch>
             </div>
         )
