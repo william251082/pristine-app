@@ -2,15 +2,17 @@ import React from "react";
 import {Field, reduxForm, SubmissionError} from "redux-form";
 import {connect} from "react-redux";
 import {renderField} from "../form";
+import {commentAdd} from "../actions/actions";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+const mapDispatchToProps = {
+    commentAdd
+};
 
 class CommentForm extends React.Component
 {
     onSubmit(values) {
-        return sleep(2000).then(() => {
-            throw new SubmissionError({content: 'Invalid comment'})
-        });
+        const {commentAdd, postId} = this.props;
+        return commentAdd(values.content, postId);
     }
 
     render() {
@@ -18,7 +20,7 @@ class CommentForm extends React.Component
         return (
             <div className="card mb-3 mt-3 shadow-sm">
                 <div className="card-body">
-                    <form>
+                    <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
                         <Field name="content" label="Type your comment" type="textarea" component={renderField}/>
                         <button type="submit" className="btn btn-primary btn-big btn-block" disabled={submitting}>
                             Add Comment
@@ -32,4 +34,4 @@ class CommentForm extends React.Component
 
 export default reduxForm({
     form: 'CommentForm'
-}) (connect(null, null)(CommentForm))
+}) (connect(null, mapDispatchToProps)(CommentForm))

@@ -1,5 +1,6 @@
 import {requests} from "../agent";
 import {
+    COMMENT_ADDED,
     COMMENT_LIST_ERROR,
     COMMENT_LIST_RECEIVED,
     COMMENT_LIST_REQUEST,
@@ -109,15 +110,28 @@ export const userLoginSuccess = (token, userId) => {
 };
 
 export const userLoginAttempt = (username, password) => {
-    return(dispatch) => {
+    return (dispatch) => {
         return requests
             .post('/login_check', {username, password}, false)
             .then(response => dispatch(userLoginSuccess(response.token, response.id)))
-            .catch(error => {
+            .catch(() => {
                 throw new SubmissionError({
                     _error: 'Username or password is invalid'
                 })
             });
+    }
+};
+
+export const commentAdded = (comment) => ({
+    type: COMMENT_ADDED,
+    comment
+});
+
+export const commentAdd = (comment, postId) => {
+    return (dispatch) => {
+        return requests
+            .post('/comments', {content: comment, post: `/api/posts/${postId}`})
+            .then(response => dispatch(commentAdded(response)))
     }
 };
 
