@@ -6,14 +6,14 @@ import Header from "./Header";
 import PostContainer from "./PostContainer";
 import {requests} from "../agent";
 import {connect} from "react-redux";
-import {userProfileFetch, userSetId} from "../actions/actions";
+import {userLogout, userProfileFetch, userSetId} from "../actions/actions";
 
 const mapStateToProps = state => ({
     ...state.auth
 });
 
 const mapDispatchToProps = {
-    userProfileFetch, userSetId
+    userProfileFetch, userSetId, userLogout
 };
 
 class App extends React.Component
@@ -47,11 +47,11 @@ class App extends React.Component
     }
 
     render() {
-        const {isAuthenticated, userData} = this.props;
+        const {isAuthenticated, userData, userLogout} = this.props;
 
         return(
             <div>
-                <Header isAuthenticated={isAuthenticated} userData={userData}/>
+                <Header isAuthenticated={isAuthenticated} userData={userData} logout={userLogout}/>
                 <Switch>
                     <Route path="/login" component={LoginForm}/>
                     <Route path="/post/:id" component={PostContainer}/>
