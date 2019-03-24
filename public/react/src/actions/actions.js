@@ -20,7 +20,6 @@ import {
     USER_SET_ID
 } from "./constants";
 import {SubmissionError} from "redux-form";
-import {parseApiErrors} from "../apiUtils";
 
 export const postListRequest = () => ({
     type: POST_LIST_REQUEST,
