@@ -1,13 +1,22 @@
 import {requests} from "../agent";
 import {
-    COMMENT_LIST_ERROR, COMMENT_LIST_RECEIVED,
-    COMMENT_LIST_REQUEST, COMMENT_LIST_UNLOAD,
+    COMMENT_LIST_ERROR,
+    COMMENT_LIST_RECEIVED,
+    COMMENT_LIST_REQUEST,
+    COMMENT_LIST_UNLOAD,
     POST_ERROR,
     POST_LIST_ADD,
     POST_LIST_ERROR,
     POST_LIST_RECEIVED,
-    POST_LIST_REQUEST, POST_RECEIVED,
-    POST_REQUEST, POST_UNLOAD, USER_LOGIN_SUCCESS, USER_PROFILE_ERROR, USER_PROFILE_RECEIVED, USER_PROFILE_REQUEST
+    POST_LIST_REQUEST,
+    POST_RECEIVED,
+    POST_REQUEST,
+    POST_UNLOAD,
+    USER_LOGIN_SUCCESS,
+    USER_PROFILE_ERROR,
+    USER_PROFILE_RECEIVED,
+    USER_PROFILE_REQUEST,
+    USER_SET_ID
 } from "./constants";
 import {SubmissionError} from "redux-form";
 
@@ -109,6 +118,13 @@ export const userLoginAttempt = (username, password) => {
                     _error: 'Username or password is invalid'
                 })
             });
+    }
+};
+
+export const userSetId = (userId) => {
+    return {
+        type: USER_SET_ID,
+        userId
     }
 };
 
