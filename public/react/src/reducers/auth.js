@@ -15,7 +15,7 @@ export default (state = {
                 isAuthenticated: true
             };
         case USER_SET_ID:
-            return{
+            return {
                 ...state,
                 userId: action.userId,
                 isAuthenticated: true
@@ -23,6 +23,7 @@ export default (state = {
         case USER_PROFILE_RECEIVED:
             console.log(state.userId);
             console.log(action.userId);
+            console.log(action.userData);
             return {
                 ...state,
                 userData: (
