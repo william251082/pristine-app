@@ -11,8 +11,8 @@ const mapDispatchToProps = {
 class CommentForm extends React.Component
 {
     onSubmit(values) {
-        const {commentAdd, postId} = this.props;
-        return commentAdd(values.content, postId);
+        const {commentAdd, postId, reset} = this.props;
+        return commentAdd(values.content, postId).then(() => reset());
     }
 
     render() {

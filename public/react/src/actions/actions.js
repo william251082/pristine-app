@@ -132,6 +132,9 @@ export const commentAdd = (comment, postId) => {
         return requests
             .post('/comments', {content: comment, post: `/api/posts/${postId}`})
             .then(response => dispatch(commentAdded(response)))
+            .catch(error => {
+                throw new SubmissionError({content: 'This is an error.'})
+            })
     }
 };
 
