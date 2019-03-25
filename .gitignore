@@ -44,3 +44,6 @@ bin/*
 ###> behat/symfony2-extension ###
 behat.yml
 ###< behat/symfony2-extension ###
+public/images/5c992b6c52e80644032043.jpg
+public/images/5c992b722d600901299030.png
+public/images/*
