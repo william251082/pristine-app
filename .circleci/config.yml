@@ -28,6 +28,9 @@ jobs:
           name: Composer install
           command: composer install -n --prefer-dist
       - run:
+          name: chmod permissions
+          command: chmod +x ./bin/phpunit
+      - run:
           name: Run migrations
           command: php bin/console doctrine:migrations:migrate --env=test --no-interaction
 
