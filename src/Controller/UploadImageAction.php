@@ -69,6 +69,8 @@ class UploadImageAction
             $this->entityManager->persist($image);
             $this->entityManager->flush();
 
+            $image->setFile(null);
+
             return $image;
         }
 

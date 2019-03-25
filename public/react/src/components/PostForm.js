@@ -34,7 +34,7 @@ class PostForm extends React.Component
             return <Redirect to={"/login"}/>
         }
 
-        const {submitting, handleSubmit, error, images} = this.props;
+        const {submitting, handleSubmit, error, images, isImageUploading} = this.props;
 
         return (
             <div className="card mt-3 mb-6 shadow-sm">
@@ -49,7 +49,7 @@ class PostForm extends React.Component
 
                         <button type="submit"
                                 className="btn btn-primary btn-big btn-block"
-                                disabled={submitting}>
+                                disabled={submitting || isImageUploading}>
                             Publish Now!
                         </button>
                     </form>

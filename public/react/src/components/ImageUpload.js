@@ -12,7 +12,7 @@ class ImageUpload extends React.Component
     onChange(e) {
         console.log(e.target);
         console.log(e.target.files[0]);
-        const file = e.target.files[0]
+        const file = e.target.files[0];
         this.props.imageUpload(file);
     }
 
