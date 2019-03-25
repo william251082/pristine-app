@@ -1,11 +1,20 @@
 import React from "react";
 import {Field, reduxForm} from "redux-form"
 import {renderField} from "../form";
+import {userConfirm} from "../actions/actions";
+import {connect} from "react-redux";
+
+const mapDispatchToProps = {
+    userConfirm
+};
 
 class ConfirmationForm extends React.Component
 {
     onSubmit(values) {
-
+        return this.props.userConfirm(values.confirmationToken)
+            .then(() => {
+                this.props.reset();
+            });
     }
 
     render() {
@@ -34,4 +43,4 @@ class ConfirmationForm extends React.Component
 
 export default reduxForm({
     form: 'ConfirmationForm'
-})(ConfirmationForm);
+})(connect(null, mapDispatchToProps)(ConfirmationForm));
