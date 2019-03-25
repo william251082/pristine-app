@@ -287,3 +287,11 @@ export const imageUpload = (file) => {
     }
 };
 
+export const imageDelete = (id) => {
+    return (dispatch) => {
+        return requests
+            .delete(`/images/${id}`);
+    }
+};
+
+

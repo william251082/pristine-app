@@ -4,13 +4,14 @@ import {connect} from "react-redux";
 import {canWritePost} from "../apiUtils";
 import {Redirect} from "react-router";
 import {renderField} from "../form";
-import {postAdd, postFormUnload} from "../actions/actions";
+import {imageDelete, postAdd, postFormUnload} from "../actions/actions";
 import ImageUpload from "./ImageUpload";
 import {ImageBrowser} from "./ImageBrowser";
 
 const mapDispatchToProps = {
     postAdd,
-    postFormUnload
+    postFormUnload,
+    imageDelete
 };
 
 const mapStateToProps = state => ({
@@ -39,7 +40,7 @@ class PostForm extends React.Component
             return <Redirect to={"/login"}/>
         }
 
-        const {submitting, handleSubmit, error, images, isImageUploading} = this.props;
+        const {submitting, handleSubmit, error, images, isImageUploading, imageDelete} = this.props;
 
         return (
             <div className="card mt-3 mb-6 shadow-sm">
@@ -50,7 +51,7 @@ class PostForm extends React.Component
                         <Field name="content" label="Content:" type="textarea" component={renderField}/>
 
                         <ImageUpload/>
-                        <ImageBrowser images={images}/>
+                        <ImageBrowser images={images} deleteHandler={imageDelete}/>
 
                         <button type="submit"
                                 className="btn btn-primary btn-big btn-block"

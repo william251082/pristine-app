@@ -35,6 +35,12 @@ export const requests = {
             .use(tokenPlugin(secured))
             .then(responseBody)
     },
+    delete: (url, secured = true) => {
+        return superagent
+            .del(`${API_ROOT}${url}`)
+            .use(tokenPlugin(secured))
+            .then(responseBody)
+    },
     setToken: (newJwtToken) => token = newJwtToken
 };
 
