@@ -10,9 +10,9 @@ jobs:
           MAILER_FROM: william@xlab.nl
           MAILER_URL: null://localhost
       - image: circleci/mysql:5.7
-          environment:
-            MYSQL_ROOT_PASSWORD: 'root'
-            MYSQL_DATABASE: test
+        environment:
+          MYSQL_ROOT_PASSWORD: 'root'
+          MYSQL_DATABASE: test
     steps:
       - checkout
       - run:
