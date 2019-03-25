@@ -8,6 +8,7 @@ import {requests} from "../agent";
 import {connect} from "react-redux";
 import {userLogout, userProfileFetch, userSetId} from "../actions/actions";
 import RegisterForm from "./RegisterForm";
+import {RegistrationContainer} from "./RegistrationContainer";
 
 const mapStateToProps = state => ({
     ...state.auth
@@ -54,7 +55,7 @@ class App extends React.Component
                 <Switch>
                     <Route path="/login" component={LoginForm}/>
                     <Route path="/post/:id" component={PostContainer}/>
-                    <Route path="/register" component={RegisterForm}/>
+                    <Route path="/register" component={RegistrationContainer}/>
                     <Route path="/:page?" component={PostListContainer}/>
                 </Switch>
             </div>

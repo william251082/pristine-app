@@ -17,7 +17,6 @@ class RegisterForm extends React.Component
 
     onSubmit(values) {
         // convert values to array
-        console.log(...Object.values(values));
         return this.props.userRegister(...Object.values(values))
             .then(() => {
                 this.props.reset();
