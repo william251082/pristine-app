@@ -6,7 +6,6 @@ import {
     COMMENT_LIST_REQUEST,
     COMMENT_LIST_UNLOAD,
     POST_ERROR,
-    POST_LIST_ADD,
     POST_LIST_ERROR,
     POST_LIST_RECEIVED,
     POST_LIST_REQUEST, POST_LIST_SET_PAGE,
@@ -49,6 +48,27 @@ export const postListFetch = (page = 1) => {
           .then(response => dispatch(postListReceived(response)))
           .catch(error => dispatch(postListError(error)));
   }
+};
+
+export const postAdd = (title, content) => {
+    return (dispatch) => {
+        return requests
+            .post('/posts', {
+                title,
+                content,
+                slug: title && title.replace(/ /g, "-").toLowerCase()
+            })
+            .catch((error) => {
+                if (401 === error.response.status) {
+                    return dispatch(userLogout());
+                } else if (403 === error.response.status) {
+                    throw new SubmissionError({
+                        _error: 'You do not have rights to publish posts!'
+                    });
+                }
+                throw new SubmissionError(parseApiErrors(error));
+            })
+    }
 };
 
 export const postRequest = () => ({
@@ -233,12 +253,3 @@ export const userProfileFetch = (userId) => {
     }
 };
 
-export const postAdd = () => ({
-    type: POST_LIST_ADD,
-    data: [
-        {
-            id: Math.floor(Math.random() * 100 + 3),
-            title: 'A newly added blog post'
-        }
-    ]
-});

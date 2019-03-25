@@ -3,8 +3,9 @@ export const parseApiErrors = (error) => {
       (parsedErrors, violation) => {
           parsedErrors[violation['propertyPath']] = violation['message'];
           return parsedErrors;
-      }
-  )
+      },
+    {}
+  );
 };
 
 
