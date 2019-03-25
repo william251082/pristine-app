@@ -4,7 +4,7 @@ import {
     COMMENT_LIST_ERROR,
     COMMENT_LIST_RECEIVED,
     COMMENT_LIST_REQUEST,
-    COMMENT_LIST_UNLOAD,
+    COMMENT_LIST_UNLOAD, IMAGE_UPLOAD_ERROR, IMAGE_UPLOAD_REQUEST, IMAGE_UPLOADED,
     POST_ERROR,
     POST_LIST_ERROR,
     POST_LIST_RECEIVED,
@@ -250,6 +250,35 @@ export const userProfileFetch = (userId) => {
             .get(`/users/${userId}`, true)
             .then(response => dispatch(userProfileReceived(userId, response)))
             .catch(() => dispatch(userProfileError(userId)))
+    }
+};
+
+export const imageUploaded = (data) => {
+    return {
+        type: IMAGE_UPLOADED,
+        image: data
+    }
+};
+
+export const imageUploadRequest = () => {
+    return {
+        type: IMAGE_UPLOAD_REQUEST
+    }
+};
+
+export const imageUploadError = () => {
+    return {
+        type: IMAGE_UPLOAD_ERROR
+    }
+};
+
+export const imageUpload = (file) => {
+    return (dispatch) => {
+        dispatch(imageUploadRequest());
+        return requests
+            .upload('/images', file)
+            .then(response => dispatch(imageUploaded(response)))
+            .catch(() => dispatch(imageUploadError))
     }
 };
 
