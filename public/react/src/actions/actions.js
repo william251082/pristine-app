@@ -5,7 +5,7 @@ import {
     COMMENT_LIST_RECEIVED,
     COMMENT_LIST_REQUEST,
     COMMENT_LIST_UNLOAD, IMAGE_UPLOAD_ERROR, IMAGE_UPLOAD_REQUEST, IMAGE_UPLOADED,
-    POST_ERROR,
+    POST_ERROR, POST_FORM_UNLOAD,
     POST_LIST_ERROR,
     POST_LIST_RECEIVED,
     POST_LIST_REQUEST, POST_LIST_SET_PAGE,
@@ -50,13 +50,14 @@ export const postListFetch = (page = 1) => {
   }
 };
 
-export const postAdd = (title, content) => {
+export const postAdd = (title, content, images = []) => {
     return (dispatch) => {
         return requests
             .post('/posts', {
                 title,
                 content,
-                slug: title && title.replace(/ /g, "-").toLowerCase()
+                slug: title && title.replace(/ /g, "-").toLowerCase(),
+                images: images.map(image => `/api/images/${image.id}`)
             })
             .catch((error) => {
                 if (401 === error.response.status) {
@@ -70,6 +71,10 @@ export const postAdd = (title, content) => {
             })
     }
 };
+
+export const postFormUnload = () => ({
+    type: POST_FORM_UNLOAD
+});
 
 export const postRequest = () => ({
     type: POST_REQUEST,

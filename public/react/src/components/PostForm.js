@@ -4,12 +4,13 @@ import {connect} from "react-redux";
 import {canWritePost} from "../apiUtils";
 import {Redirect} from "react-router";
 import {renderField} from "../form";
-import {postAdd} from "../actions/actions";
+import {postAdd, postFormUnload} from "../actions/actions";
 import ImageUpload from "./ImageUpload";
 import {ImageBrowser} from "./ImageBrowser";
 
 const mapDispatchToProps = {
-    postAdd
+    postAdd,
+    postFormUnload
 };
 
 const mapStateToProps = state => ({
@@ -20,13 +21,17 @@ const mapStateToProps = state => ({
 class PostForm extends React.Component
 {
     onSubmit(values) {
-        const {postAdd, reset, history} = this.props;
+        const {postAdd, reset, history, images} = this.props;
 
-        return postAdd(values.title, values.content)
+        return postAdd(values.title, values.content, images)
             .then(() => {
                 reset();
                 history.push('/');
             });
+    }
+
+    componentWillUnmount() {
+        this.props.postFormUnload();
     }
 
     render() {

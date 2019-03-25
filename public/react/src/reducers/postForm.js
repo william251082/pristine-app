@@ -1,4 +1,4 @@
-import {IMAGE_UPLOAD_ERROR, IMAGE_UPLOAD_REQUEST, IMAGE_UPLOADED} from "../actions/constants";
+import {IMAGE_UPLOAD_ERROR, IMAGE_UPLOAD_REQUEST, IMAGE_UPLOADED, POST_FORM_UNLOAD} from "../actions/constants";
 
 export default (state = {
     isImageUploading: false,
@@ -22,6 +22,13 @@ export default (state = {
             return {
                 ...state,
                 isImageUploading: false
+            };
+        case POST_FORM_UNLOAD:
+            return {
+                ...state,
+                isImageUploading: false,
+                image: null,
+                images: []
             };
         default:
             return state;
