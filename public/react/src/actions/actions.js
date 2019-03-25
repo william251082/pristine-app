@@ -16,7 +16,7 @@ import {
     USER_LOGIN_SUCCESS, USER_LOGOUT,
     USER_PROFILE_ERROR,
     USER_PROFILE_RECEIVED,
-    USER_PROFILE_REQUEST, USER_REGISTER_SUCCESS,
+    USER_PROFILE_REQUEST, USER_REGISTER_COMPLETE, USER_REGISTER_SUCCESS,
     USER_SET_ID
 } from "./constants";
 import {SubmissionError} from "redux-form";
@@ -154,6 +154,12 @@ export const userRegister = (username, password, retypedPassword, email, name) =
 export const userConfirmationSuccess = () => {
     return {
         type: USER_CONFIRMATION_SUCCESS
+    }
+};
+
+export const userRegisterComplete = () => {
+    return {
+        type: USER_REGISTER_COMPLETE
     }
 };
 

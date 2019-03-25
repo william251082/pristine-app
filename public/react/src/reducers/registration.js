@@ -1,4 +1,4 @@
-import {USER_CONFIRMATION_SUCCESS, USER_REGISTER_SUCCESS} from "../actions/constants";
+import {USER_CONFIRMATION_SUCCESS, USER_REGISTER_COMPLETE, USER_REGISTER_SUCCESS} from "../actions/constants";
 
 export default (state = {
     registrationSuccess: false,
@@ -14,6 +14,12 @@ export default (state = {
             return {
                 ...state,
                 confirmationSuccess: true
+            };
+        case USER_REGISTER_COMPLETE:
+            return {
+                ...state,
+                confirmationSuccess: false,
+                registrationSuccess: false
             };
         default:
             return state;

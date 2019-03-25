@@ -18,6 +18,7 @@ export const COMMENT_ADDED = 'COMMENT_ADDED';
 
 export const USER_LOGIN_SUCCESS         = 'USER_LOGIN_SUCCESS';
 export const USER_REGISTER_SUCCESS      = 'USER_REGISTER_SUCCESS';
+export const USER_REGISTER_COMPLETE      = 'USER_REGISTER_COMPLETE';
 export const USER_CONFIRMATION_SUCCESS  = 'USER_CONFIRMATION_SUCCESS';
 export const USER_SET_ID                = 'USER_SET_ID';
 export const USER_LOGOUT                = 'USER_LOGOUT';
