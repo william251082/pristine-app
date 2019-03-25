@@ -4,6 +4,10 @@ import {renderField} from "../form";
 
 class ConfirmationForm extends React.Component
 {
+    onSubmit(values) {
+
+    }
+
     render() {
         const {handleSubmit, submitting} = this.props;
 

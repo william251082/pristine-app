@@ -7,8 +7,7 @@ import PostContainer from "./PostContainer";
 import {requests} from "../agent";
 import {connect} from "react-redux";
 import {userLogout, userProfileFetch, userSetId} from "../actions/actions";
-import RegisterForm from "./RegisterForm";
-import {RegistrationContainer} from "./RegistrationContainer";
+import RegistrationContainer from "./RegistrationContainer";
 
 const mapStateToProps = state => ({
     ...state.auth

@@ -17,6 +17,7 @@ export const COMMENT_LIST_UNLOAD    = 'COMMENT_LIST_UNLOAD';
 export const COMMENT_ADDED = 'COMMENT_ADDED';
 
 export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS';
+export const USER_REGISTER_SUCCESS = 'USER_REGISTER_SUCCESS';
 export const USER_SET_ID        = 'USER_SET_ID';
 export const USER_LOGOUT        = 'USER_LOGOUT';
 
