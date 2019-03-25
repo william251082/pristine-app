@@ -4,7 +4,7 @@ import {
     COMMENT_LIST_ERROR,
     COMMENT_LIST_RECEIVED,
     COMMENT_LIST_REQUEST,
-    COMMENT_LIST_UNLOAD, IMAGE_UPLOAD_ERROR, IMAGE_UPLOAD_REQUEST, IMAGE_UPLOADED,
+    COMMENT_LIST_UNLOAD, IMAGE_DELETE_REQUEST, IMAGE_DELETED, IMAGE_UPLOAD_ERROR, IMAGE_UPLOAD_REQUEST, IMAGE_UPLOADED,
     POST_ERROR, POST_FORM_UNLOAD,
     POST_LIST_ERROR,
     POST_LIST_RECEIVED,
@@ -287,10 +287,24 @@ export const imageUpload = (file) => {
     }
 };
 
+export const imageDeleteRequest = () => {
+    return {
+        type: IMAGE_DELETE_REQUEST,
+    }
+};
+
 export const imageDelete = (id) => {
     return (dispatch) => {
-        return requests
-            .delete(`/images/${id}`);
+        dispatch(imageDeleteRequest());
+        return requests.delete(`/images/${id}`)
+            .then(() => dispatch(imageDeleted(id)));
+    }
+};
+
+export const imageDeleted = (id) => {
+    return {
+        type: IMAGE_DELETED,
+        imageId: id
     }
 };
 
