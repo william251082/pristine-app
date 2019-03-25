@@ -96,11 +96,11 @@ export const commentListUnload = () => ({
     type: COMMENT_LIST_UNLOAD
 });
 
-export const commentListFetch = (id) => {
+export const commentListFetch = (id, page = 1) => {
     return (dispatch) => {
         dispatch(commentListRequest());
         return requests
-            .get(`/posts/${id}/comments`)
+            .get(`/posts/${id}/comments?_page=${page}`)
             .then(response => dispatch(commentListReceived(response)))
             .catch(error => dispatch(commentListError(error)));
     }
