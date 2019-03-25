@@ -5,6 +5,7 @@ import {canWritePost} from "../apiUtils";
 import {Redirect} from "react-router";
 import {renderField} from "../form";
 import {postAdd} from "../actions/actions";
+import {ImageUpload} from "./ImageUpload";
 
 const mapDispatchToProps = {
     postAdd
@@ -40,6 +41,11 @@ class PostForm extends React.Component
                     <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
                         <Field name="title" label="Title:" type="text" component={renderField}/>
                         <Field name="content" label="Content:" type="textarea" component={renderField}/>
+
+                        <ImageUpload />
+                        {/*<ImageBrowser images={images}*/}
+                                      {/*deleteHandler={imageDelete}*/}
+                                      {/*isLocked={imageReqInProgress} />*/}
 
                         <button type="submit"
                                 className="btn btn-primary btn-big btn-block"
