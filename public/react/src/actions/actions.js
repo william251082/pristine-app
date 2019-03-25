@@ -20,6 +20,7 @@ import {
     USER_SET_ID
 } from "./constants";
 import {SubmissionError} from "redux-form";
+import {parseApiErrors} from "../apiUtils";
 
 export const postListRequest = () => ({
     type: POST_LIST_REQUEST,
@@ -131,6 +132,16 @@ export const userLogout = () => {
   return {
       type: USER_LOGOUT
   }
+};
+
+export const userRegister = (username, password, retypedPassword, email, name) => {
+    return (dispatch) => {
+        return requests
+            .post('/users', {username, password, retypedPassword, email, name}, false)
+            .catch(error => {
+                throw new SubmissionError(parseApiErrors(error))
+            });
+    }
 };
 
 export const commentAdded = (comment) => ({
