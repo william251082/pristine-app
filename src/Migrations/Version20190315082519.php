@@ -21,8 +21,6 @@ final class Version20190315082519 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
-        $this->addSql('ALTER TABLE user CHANGE confirmation_token confirmation_token VARCHAR(40) DEFAULT NULL');
     }
 
     public function down(Schema $schema) : void
