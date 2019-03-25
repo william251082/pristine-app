@@ -35,9 +35,10 @@ class CommentListContainer extends React.Component
     render() {
         const {commentList, isFetching, isAuthenticated, postId, currentPage, pageCount} = this.props;
         const showLoadMore = pageCount > 1 && currentPage <= pageCount;
+        console.log(commentList);
 
-        if (isFetching) {
-            return(<Spinner/>)
+        if (isFetching && currentPage === 1) {
+            return(<Spinner/>);
         }
 
         return (
