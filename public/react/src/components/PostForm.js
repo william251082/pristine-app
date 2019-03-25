@@ -16,7 +16,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
     userData: state.auth.userData,
-        ...state.postForm
+    ...state.postForm
 });
 
 class PostForm extends React.Component
@@ -37,10 +37,10 @@ class PostForm extends React.Component
 
     render() {
         if (!canWritePost(this.props.userData)) {
-            return <Redirect to={"/login"}/>
+            return <Redirect to="/login"/>
         }
 
-        const {submitting, handleSubmit, error, images, isImageUploading, imageDelete} = this.props;
+        const {submitting, handleSubmit, error, images, imageReqInProgress, imageDelete} = this.props;
 
         return (
             <div className="card mt-3 mb-6 shadow-sm">
@@ -50,18 +50,19 @@ class PostForm extends React.Component
                         <Field name="title" label="Title:" type="text" component={renderField}/>
                         <Field name="content" label="Content:" type="textarea" component={renderField}/>
 
-                        <ImageUpload/>
-                        <ImageBrowser images={images} deleteHandler={imageDelete}/>
+                        <ImageUpload />
+                        <ImageBrowser images={images}
+                                      deleteHandler={imageDelete}
+                                      isLocked={imageReqInProgress} />
 
-                        <button type="submit"
-                                className="btn btn-primary btn-big btn-block"
-                                disabled={submitting || isImageUploading}>
+                        <button type="submit" className="btn btn-primary btn-big btn-block"
+                                disabled={submitting || imageReqInProgress}>
                             Publish Now!
                         </button>
                     </form>
                 </div>
             </div>
-        );
+        )
     }
 }
 
