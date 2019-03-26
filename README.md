@@ -12,7 +12,6 @@ your_path/blog
 composer install
 ```
 Install react dependencies:
-
 ```
 your_path/react
 npm install
@@ -31,29 +30,30 @@ If you have problems, completely drop the
 database (`doctrine:database:drop --force`) and try again.
 
 Run frontend:
-
 ```
 your_path/react
 npm start
 ```
-Run backend(dev env):
-
+Run backend (test env):
 ```
-your_path/react
+your_path/blog
 APP_ENV=test php -d variables_order=EGPCS -S 127.0.0.1:8000 -t public
 ```
-Run backend(test env):
+Run backend (dev env):
 ```
-your_path/react
+your_path/blog
 APP_ENV=dev php -S 127.0.0.1:8000 -t public
 ```
 
 ## Built With
 
 * [PHP7.2](http://php.net/manual/en/migration70.new-features.php) - The language used
-* [Symfony4](https://symfony.com/4) - The PHP/framework used
-* [React](https://reactjs.org) - The JS/framework used
-* [Redux](https://redux.js.org) - The JS/state container used
+* [Symfony4](https://symfony.com/4) - The PHP framework used
+* [ApiPlatform](https://api-platform.com) - The REST framework used
+* [LexikJWT](https://github.com/lexik/LexikJWTAuthenticationBundle) - The Auth Bundle used
+* [VichUploader](https://symfony.com/doc/master/bundles/EasyAdminBundle/integration/vichuploaderbundle.html) - The Uploader Bundle used
+* [React](https://reactjs.org) - The JS framework used
+* [Redux](https://redux.js.org) - The JS state container used
 
 
 
