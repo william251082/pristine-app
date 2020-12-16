@@ -3,7 +3,7 @@
 A web app to post blog and images.
 
 Ask for Demo on : 
-[Ask for Demo on Pristine](https://pristine.vercel.app)
+[Pristine](https://pristine.vercel.app)
 
 ### Running
 
