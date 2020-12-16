@@ -1,6 +1,6 @@
 # PRISTINE APP
 
-A web app to post blog and images.
+A highly optimized, scalable web app to post blog and images built on SPA+REST API architecture.
 
 Ask for Demo on : 
 [Pristine](https://pristine.vercel.app)
