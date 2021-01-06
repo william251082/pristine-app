@@ -34,7 +34,7 @@ database (`doctrine:database:drop --force`) and try again.
 
 Run frontend:
 ```
-your_path/react
+your_path/client
 npm start
 ```
 Run backend (test env):

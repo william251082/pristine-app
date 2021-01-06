@@ -47,3 +47,11 @@ behat.yml
 public/images/5c992b6c52e80644032043.jpg
 public/images/5c992b722d600901299030.png
 public/images/*
+
+.vagrant
+.vscode
+.DS_Store
+
+.vagrant
+.vscode
+.DS_Store
