@@ -96,3 +96,8 @@
       file:
         path: /usr/local/bin/composer
         mode: "a+x"
+
+    - name: Install Composer's Dependencies
+      composer:
+        working_dir: "{{ symfony_root_dir }}"
+        no_dev: no

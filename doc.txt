@@ -36,3 +36,5 @@ php -i | grep mysql
 php -i | grep timezone
 php --ini
 
+php bin/symfony-requirements
+
