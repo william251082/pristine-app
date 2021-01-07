@@ -18,6 +18,11 @@
         upgrade: safe
       become: true
 
+    - name: Install low-level utilities
+      become: true
+      apt:
+        name: ['zip', 'unzip']
+
     - name: Install Git
       become: true
       apt:
@@ -78,3 +83,16 @@
         repo: https://github.com/william251082/pristine-app
         dest: "/var/www/project"
         force: yes
+
+    - name: Download Composer
+      script: scripts/install-composer.sh
+
+    - name: Move Composer Locally
+      become: true
+      command: "mv composer.phar /usr/local/bin/composer"
+
+    - name: Set Permissions on Composer
+      become: true
+      file:
+        path: /usr/local/bin/composer
+        mode: "a+x"
