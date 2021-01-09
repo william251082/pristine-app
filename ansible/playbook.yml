@@ -1,22 +1,49 @@
 ---
-- hosts: vb
+- hosts: webserver
 
-  vars:
-    symfony_root_dir: "/var/www/project"
-    php_version: 8.0
+  vars_files:
+    - ./vars/vars.yml
+
+  vars_prompt:
+    - name: symfony_env
+      prompt: "Enter the environment for your Symfony app (prod|dev|test)"
+      default: prod
+      private: no
+
+  environment:
+    SYMFONY_ENV: "{{ symfony_env|lower }}"
+
+# run before roles
+  pre_tasks:
+    - name: Convert entered Symfony environment to lowercase
+      set_fact:
+        symfony_env: "{{ symfony_env|lower}}"
+      tags:
+        - always
+
+    - name: Update APT package manager repositories cache
+      become: true
+      apt:
+        update_cache: yes
+
+    - name: Upgrade install packages
+      become: true
+      apt:
+        upgrade: safe
+
+  roles:
+    - nginx
+    - role: DavidWittman.redis
+      become: true
 
   tasks:
     - ping: ~
 
-    - name: Update APT package manager repositories cache
-      apt:
-        update_cache: yes
-      become: true
+    - debug:
+        var: ansible_env
 
-    - name: Upgrade install packages
-      apt:
-        upgrade: safe
-      become: true
+    - debug:
+        var: symfony_env
 
     - name: Install low-level utilities
       become: true
@@ -29,19 +56,13 @@
         name: git
         state: latest
 
-    - name: Install Nginx web server
-      become: true
-      apt:
-        name: nginx
-        state: latest
-
     - name: Install Mysql DB server
       become: true
       apt:
         name: mysql-server
         state: latest
 
-    - name: Add PHP 8 PPA repository
+    - name: Add PHP 7.4 PPA repository
       become: true
       apt_repository:
         repo: 'ppa:ondrej/php'
@@ -53,8 +74,10 @@
                'php{{ php_version }}-fpm', 'php{{ php_version }}-intl', 'php{{ php_version }}-curl',
                'php{{ php_version }}-gd', 'php{{ php_version }}-imagick', 'php{{ php_version }}-cli',
                'php{{ php_version }}-dev', 'php{{ php_version }}-imap', 'php{{ php_version }}-mbstring',
-               'php{{ php_version }}-opcache', 'php{{ php_version }}-soap', 'php{{ php_version }}-zip']
+               'php{{ php_version }}-opcache', 'php{{ php_version }}-soap','php{{ php_version }}-zip']
         state: latest
+      notify: Restart PHP_FPM
+
     - name: Set date.timezone for CLI
       become: true
       lineinfile:
@@ -68,6 +91,7 @@
         dest: "/etc/php/{{ php_version }}/fpm/php.ini"
         regexp: "date.timezone ="
         line: "date.timezone = UTC"
+      notify: Restart PHP_FPM
 
     - name: Create a project directory and set its permission
       become: true
@@ -77,27 +101,74 @@
         owner: "{{ ansible_user }}"
         group: "{{ ansible_user }}"
         recurse: yes
+      tags:
+        - deploy
 
     - name: Checkout git repository
       git:
-        repo: https://github.com/william251082/pristine-app
+        repo: https://github.com/william251082/pristine-api
         dest: "/var/www/project"
         force: yes
+      register: repo_code
+      tags:
+        - deploy
+
+    - name: Register code_changed variable
+      set_fact:
+        code_changed: repo_code.change
+      tags:
+        - deploy
+
+    - name: Check for Composer
+      stat:
+        path: /usr/local/bin/composer
+      register: composer_stat
+      tags:
+        - deploy
+
+#    - debug:
+#        var: composer_stat
+#      tags:
+#        - deploy
 
     - name: Download Composer
       script: scripts/install-composer.sh
+      when: not composer_stat.stat.exists
+      tags:
+        - deploy
 
-    - name: Move Composer Locally
+    - name: Move Composer Globally
       become: true
       command: "mv composer.phar /usr/local/bin/composer"
+      when: not composer_stat.stat.exists
+      tags:
+        - deploy
 
     - name: Set Permissions on Composer
       become: true
       file:
         path: /usr/local/bin/composer
         mode: "a+x"
+      when: not composer_stat.stat.exists
+      tags:
+        - deploy
 
-    - name: Install Composer's Dependencies
+    - name: Make sure composer is at its latest version
       composer:
         working_dir: "{{ symfony_root_dir }}"
-        no_dev: no
+        command: self-update
+      register: composer_self_update
+#      changed_when: "not composer_self_update.stdout|search('You are already using composer version')"
+      tags:
+        - deploy
+
+    # Bootstrap Symfony App
+    - include: ./includes/symfony-bootstrap.yml
+
+# runs after all the asks, if notify by multiple tasks, it only runs once
+  handlers:
+    - name: Restart PHP_FPM
+      become: true
+      service:
+        name: "php{{ php_version }}-fpm"
+        state: restarted

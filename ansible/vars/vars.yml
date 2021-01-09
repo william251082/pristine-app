@@ -1,0 +1,11 @@
+---
+server_name: pristine-app.dev
+symfony_root_dir: "/var/www/project"
+symfony_web_dir: "{{ symfony_root_dir }}/public"
+symfony_var_dir: "{{ symfony_root_dir }}/var"
+symfony_console_path: "{{ symfony_root_dir }}/bin/console"
+php_version: 7.4
+symfony_secret: "secret string $string"
+loggly_token: "{{ vault_loggly_token }}"
+aws_access_key: "{{ vault_aws_access_key }}"
+aws_secret_key: "{{ vault_aws_secret_key }}"

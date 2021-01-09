@@ -37,4 +37,41 @@ php -i | grep timezone
 php --ini
 
 php bin/symfony-requirements
+composer show
 
+templates/symfony.conf
+
+tail /var/log/nginx/prisitine-app.dev_error.log
+
+sudo chmod 555 var/
+sudo rm -rf var/cache/*
+ansible-playbook ansible/playbook.yml -i ansible/hosts.ini -t permissions
+ansible-playbook ansible/playbook.yml -i ansible/hosts.ini -t deploy
+ansible-playbook ansible/playbook.yml -i ansible/hosts.ini -t --skip-tags deploy
+
+Detect wether it created or not created the database
+register: db_create_result
+
+- debug
+    var: db_create_result
+
+ansible-galaxy install DavidWittman.redis
+ansible-galaxy install DavidWittman.redis --help
+
+cat app/config/parameters.yml
+
+ansible-vault create ansible/vars/vault.yml
+
+ansible-playbook ansible/playbook.yml -i ansible/hosts.ini -t deploy --ask-vault-pass
+
+ansible-vault edit ansible/vars/vault.yml
+
+ansible-playbook ansible/aws.yml -i ansible/hosts.ini --ask-vault-pass
+
+
+ansible-playbook ansible/aws.yml -e 'ansible_python_interpreter=/usr/local/bin/python'
+
+which python
+pip list boto | grep boto
+ansible --version
+python -V
